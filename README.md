@@ -1,17 +1,19 @@
 # Proyecto 1EVA DEIN 
-Ejercicio DEIN FXML con base de datos.
+Programa escrito con JavaFX y la interfaz desarrollada con FXML.
 
-Ventana que mostrará una tabla con la información de los aeropuertos privados o públicos.
-Se podrán filtrar por nombre.
+Este programa mostrará la información de las olimpiadas divididas en tablas:
 
-La ventana principal tendrá un menú con los proximos elementos:
-    - Aeropuertos:
-        - Añadir
-        - Editar
-        - Borrar
-        - Mostrar información
-    - Aviones:
-        - Añadir
-        - Activar
-        - Borrar
+    - Deporte
+
+    - Deportista
+
+    - Equipo
+
+    - Evento
+
+    - Olimpiada
+
+    - Participación
+
+Los datos de las anteriores tablas se podrán modificar, eliminar y añadir.
 
