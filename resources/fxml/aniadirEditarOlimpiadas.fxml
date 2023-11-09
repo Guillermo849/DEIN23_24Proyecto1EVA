@@ -49,7 +49,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="lblDato1" text="Nombre:" />
+            <Label fx:id="lblDato1" text="Nombre:" visible="false" />
             <Label fx:id="lblDato2" text="Evento:" visible="false" GridPane.rowIndex="1" />
             <Label fx:id="lblDato3" text="Equipo:" visible="false" GridPane.rowIndex="2" />
             <Label fx:id="lblDato4" text="Edad:" visible="false" GridPane.rowIndex="3" />
@@ -79,7 +79,7 @@
                   <Insets left="20.0" right="300.0" />
                </GridPane.margin>
             </ComboBox>
-            <TextField fx:id="txtFNombre" GridPane.columnIndex="1">
+            <TextField fx:id="txtFNombre" visible="false" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" right="100.0" />
                </GridPane.margin>
