@@ -114,7 +114,7 @@
    <left>
       <VBox prefHeight="375.0" prefWidth="141.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnDeporte" mnemonicParsing="false" onAction="#mostrarTablaEquipo" prefHeight="51.0" prefWidth="163.0" text="Deporte">
+            <Button fx:id="btnDeporte" mnemonicParsing="false" onAction="#mostrarTablaDeporte" prefHeight="51.0" prefWidth="163.0" text="Deporte">
                <VBox.margin>
                   <Insets top="50.0" />
                </VBox.margin>
