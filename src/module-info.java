@@ -8,7 +8,7 @@ module DEIN23_24Proyecto1EVAFinal {
 	requires javafx.graphics;
 	requires java.sql;
 	
-//	opens model to javafx.base;
+	opens model to javafx.base;
 	opens application to javafx.graphics, javafx.fxml;
-//	opens controllers to javafx.graphics, javafx.fxml;
+	opens controllers to javafx.graphics, javafx.fxml;
 }
