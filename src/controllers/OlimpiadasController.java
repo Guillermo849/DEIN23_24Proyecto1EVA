@@ -1,7 +1,10 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -10,7 +13,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -161,15 +166,55 @@ public class OlimpiadasController implements Initializable {
 	private Button btnParticipacion;
 
 	private DeportesGestor deportesGstr;
-
+	
+	private AniadirEditarOlimpiadasController aniadirEditarOlimpiadasController;
+	
+	private int indexObjeto;
+	
+	private Deporte dprt;
+	
+	/**
+	 * Devuelve el Gestor de Deportes
+	 * @return
+	 */
+	public DeportesGestor getDeportesGstr() {
+		return deportesGstr;
+	}
+	
+	/**
+	 * Selecciona el objeto de la tabla seleccionada.
+	 * @param event
+	 */
 	@FXML
 	void selectObjeto(MouseEvent event) {
-
+		if (tbViewDeportes.getSelectionModel().getSelectedItem() != null) {
+			indexObjeto = tbViewDeportes.getSelectionModel().getSelectedIndex();
+			dprt = tbViewDeportes.getItems().get(indexObjeto);
+		}
 	}
-
+	
+	/**
+	 * Habrirá una nueva ventana para añadir un deporte
+	 * @param event
+	 */
 	@FXML
 	void aniadirDeporte(ActionEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
+			Parent root = loader.load();
+			/* Le dice a la nueva ventana cual es su ventana padre */
+			aniadirEditarOlimpiadasController = loader.getController();
+			aniadirEditarOlimpiadasController.setParent(this, null);
 
+			Stage agregarStage = new Stage();
+			agregarStage.setScene(new Scene(root));
+			agregarStage.setResizable(false);
+			agregarStage.setTitle("Olimpiadas");
+			agregarStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -206,15 +251,46 @@ public class OlimpiadasController implements Initializable {
 	void cambiarIdiomaAEspaniol(ActionEvent event) {
 
 	}
-
+	
+	/**
+	 * Edita el objeto seleccionado de las tablas
+	 * @param event
+	 */
 	@FXML
 	void editarObjeto(ActionEvent event) {
+		if (indexObjeto > -1) {
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
+				Parent root = loader.load();
+				aniadirEditarOlimpiadasController = loader.getController();
+				if (dprt != null) {
+					aniadirEditarOlimpiadasController.setParent(this, dprt);
+				}
+				
+				Stage agregarStage = new Stage();
+				agregarStage.setScene(new Scene(root));
+				agregarStage.setResizable(false);
+				agregarStage.setTitle("Olimpiadas");
+				agregarStage.showAndWait();
 
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
+	
+	/**
+	 * Elimina el objeto seleccionado de las tablas
+	 * @param event
+	 */
 	@FXML
 	void eliminarObjeto(ActionEvent event) {
-
+		if (indexObjeto > -1) {
+			if (dprt != null) {
+				deportesGstr.eliminarDeporte(dprt);
+				mostrarTablaDeporte(event);
+			}
+		}
 	}
 
 	/**
@@ -232,11 +308,8 @@ public class OlimpiadasController implements Initializable {
 		tbViewParticipacion.setVisible(false);
 
 		lblNomTabla.setText("DEPORTES");
-
 		tbColumnDeporteNombre.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNombreDeporte()));
-
 		deportesGstr = new DeportesGestor();
-
 		tbViewDeportes.setItems(deportesGstr.cargarDeportes());
 
 	}

@@ -57,7 +57,8 @@ public class DeportesGestor {
 			String consulta = "INSERT INTO deporte(nombre) VALUES('" + nom + "');";
 			PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);
 			pstmt.executeUpdate();
-
+			
+			conexion.CloseConexion();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +78,8 @@ public class DeportesGestor {
 			String consulta = "UPDATE deporte SET nombre = '" + nom + "' WHERE ID_deporte = " + deporte.getIdDeporte() + ";";
 			PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);
 			pstmt.executeUpdate();
-
+			
+			conexion.CloseConexion();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

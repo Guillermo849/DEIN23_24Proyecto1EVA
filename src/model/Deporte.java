@@ -4,6 +4,10 @@ public class Deporte {
 	private int idDeporte;
 	private String nombreDeporte;
 	
+	public Deporte(String nombreDeporte) {
+		this.nombreDeporte = nombreDeporte;
+	}
+	
 	public Deporte(int idDeporte, String nombreDeporte) {
 		this.idDeporte = idDeporte;
 		this.nombreDeporte = nombreDeporte;
