@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Deporte;
+import model.Equipo;
 import javafx.event.ActionEvent;
 
 public class AniadirEditarOlimpiadasController {
@@ -90,27 +91,51 @@ public class AniadirEditarOlimpiadasController {
 	private OlimpiadasController mainController;
 
 	private Deporte deporte;
-	
+
+	private Equipo equipo;
+
+	private String obj;
+
 	/**
 	 * Indicará cual es su padre y que objeto le han pasado
+	 * 
 	 * @param parent
 	 * @param deporte
 	 */
-	public void setParent(OlimpiadasController parent, Deporte deporte) {
+	public void setParent(OlimpiadasController parent, Deporte deporte, Equipo equipo, String objeto) {
 		this.mainController = parent;
 		this.deporte = deporte;
-		lblTituloAniadirEditar.setText("DATOS DEPORTE");
-		lblDato1.setVisible(true);
-		lblDato1.setText("Nombre:");
-		txtFNombre.setVisible(true);
+		this.equipo = equipo;
+		obj = objeto;
+
+		if (objeto.equals("Deporte")) {
+			lblTituloAniadirEditar.setText("DATOS DEPORTE");
+			lblDato1.setVisible(true);
+			lblDato1.setText("Nombre:");
+			txtFNombre.setVisible(true);
+		}
+		if (objeto.equals("Equipo")) {
+			lblTituloAniadirEditar.setText("DATOS EQUIPO");
+			lblDato1.setVisible(true);
+			lblDato1.setText("Nombre:");
+			txtFNombre.setVisible(true);
+			lblDato2.setVisible(true);
+			lblDato2.setText("Iniciales:");
+			txtFIniciales.setVisible(true);
+		}
 
 		if (deporte != null) {
 			txtFNombre.setText(deporte.getNombreDeporte().toString());
 		}
+		if (equipo != null) {
+			txtFNombre.setText(equipo.getnombreEquipo().toString());
+			txtFIniciales.setText(equipo.getIniciales());
+		}
 	}
-	
+
 	/**
 	 * Cerrará esta ventana
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -119,25 +144,36 @@ public class AniadirEditarOlimpiadasController {
 		Stage stage = (Stage) n.getScene().getWindow();
 		stage.close();
 	}
-	
+
 	/**
-	 * Mandará al gestor que guarde el objeto en la base de datos.
-	 * Luego se cerrará y actualizará la tabla de la ventana padre.
+	 * Mandará al gestor que guarde el objeto en la base de datos. Luego se cerrará
+	 * y actualizará la tabla de la ventana padre.
+	 * 
 	 * @param event
 	 */
 	@FXML
 	void guardar(ActionEvent event) {
-		Deporte dep = new Deporte(txtFNombre.getText());
-		if (this.deporte != null) {
-			if (deporte.getIdDeporte() == 0) {
+		if (obj.equals("Deporte")) {
+			Deporte dep = new Deporte(txtFNombre.getText());
+			if (this.deporte == null) {
 				mainController.getDeportesGstr().insertDeporte(dep);
 			} else {
 				dep.setIdDeporte(deporte.getIdDeporte());
 				mainController.getDeportesGstr().editarDeporte(dep);
 			}
+			mainController.mostrarTablaDeporte(event);
 		}
 
-		mainController.mostrarTablaDeporte(event);
+		if (obj.equals("Equipo")) {
+			Equipo equi = new Equipo(txtFNombre.getText(), txtFIniciales.getText());
+			if (this.equipo == null) {
+				mainController.getEquipoGestor().insertequipo(equi);
+			} else {
+				equi.setidEquipo(equipo.getidEquipo());
+				mainController.getEquipoGestor().editarequipo(equi);
+			}
+			mainController.mostrarTablaEquipo(event);
+		}
 
 		Node n = (Node) event.getSource();
 		Stage stage = (Stage) n.getScene().getWindow();
