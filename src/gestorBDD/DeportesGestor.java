@@ -21,7 +21,7 @@ public class DeportesGestor {
 	 */
 	public ObservableList<Deporte> cargarDeportes() {
 
-		ObservableList<Deporte> Deportes = FXCollections.observableArrayList();
+		ObservableList<Deporte> deportes = FXCollections.observableArrayList();
 		try {
 			conexion = new ConexionBDD();
 			String consulta = "SELECT * FROM deporte";
@@ -32,7 +32,7 @@ public class DeportesGestor {
 				int idDeporte = rs.getInt("id_deporte");
 				String nombre = rs.getString("nombre");
 				Deporte p = new Deporte(idDeporte, nombre);
-				Deportes.add(p);
+				deportes.add(p);
 			}
 			rs.close();
 			conexion.CloseConexion();
@@ -40,7 +40,7 @@ public class DeportesGestor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return Deportes;
+		return deportes;
 	}
 
 	/**
