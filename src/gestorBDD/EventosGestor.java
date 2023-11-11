@@ -22,7 +22,7 @@ public class EventosGestor {
 	 */
 	public ObservableList<Evento> cargarEventos() {
 
-		ObservableList<Evento> Eventos = FXCollections.observableArrayList();
+		ObservableList<Evento> eventos = FXCollections.observableArrayList();
 		try {
 			conexion = new ConexionBDD();
 			String consulta = "SELECT * FROM Evento";
@@ -34,8 +34,8 @@ public class EventosGestor {
 				String nombre = rs.getString("nombre");
 				Olimpiadas olimpiada = obtenerOlimpiada(rs.getInt("id_olimpiada"));
 				Deporte deporte = obtenerDeporte(rs.getInt("id_deporte"));
-				Evento p = new Evento(idEvento, nombre, olimpiada, null);
-				Eventos.add(p);
+				Evento p = new Evento(idEvento, nombre, olimpiada, deporte);
+				eventos.add(p);
 			}
 			rs.close();
 			conexion.CloseConexion();
@@ -43,7 +43,7 @@ public class EventosGestor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return Eventos;
+		return eventos;
 	}
 
 	/**
@@ -80,11 +80,11 @@ public class EventosGestor {
 		Deporte deporte = null;
 		try {
 			conexion = new ConexionBDD();
-			String consulta = "SELECT * FROM olimpiada WHERE id_olimpiada = " + id + ";";
+			String consulta = "SELECT * FROM deporte WHERE id_deporte = " + id + ";";
 			PreparedStatement pstmt = conexion.getConexion().prepareStatement(consulta);
 			ResultSet rs = pstmt.executeQuery();
 			rs.next();
-			deporte = new Deporte(rs.getInt("id_olimpiada"), rs.getString("nombre"));
+			deporte = new Deporte(rs.getInt("id_deporte"), rs.getString("nombre"));
 			rs.close();
 			conexion.CloseConexion();
 		} catch (SQLException e) {
