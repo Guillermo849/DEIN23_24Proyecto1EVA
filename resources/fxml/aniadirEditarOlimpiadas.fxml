@@ -129,14 +129,14 @@
                   <Insets left="20.0" right="300.0" />
                </GridPane.margin>
             </TextField>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="btnSubirImagen" mnemonicParsing="false" onAction="#subirImagen" text="Subir Imagen">
+                  <Button fx:id="btnSubirImagen" mnemonicParsing="false" onAction="#subirImagen" text="Subir Imagen" visible="false">
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Label fx:id="lblNombreImagen" text="Label" />
+                  <Label fx:id="lblNombreImagen" text="Label" visible="false" />
                </children>
             </HBox>
          </children>
