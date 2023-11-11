@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -14,6 +15,7 @@ import model.Deportista;
 import model.Equipo;
 import model.Evento;
 import model.Olimpiadas;
+import model.Participacion;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,16 +57,16 @@ public class AniadirEditarOlimpiadasController {
 	private TextField txtFEdad;
 
 	@FXML
-	private TextField txtFMedalla;
+	private ComboBox<String> cmbxMedalla;
 
 	@FXML
-	private ComboBox<?> cmbxDeportista;
+	private ComboBox<Deportista> cmbxDeportista;
 
 	@FXML
-	private ComboBox<?> cmbxEvento;
+	private ComboBox<Evento> cmbxEvento;
 
 	@FXML
-	private ComboBox<?> cmbxEquipo;
+	private ComboBox<Equipo> cmbxEquipo;
 
 	@FXML
 	private TextField txtFNombre;
@@ -101,6 +103,9 @@ public class AniadirEditarOlimpiadasController {
 
 	@FXML
 	private Label lblNombreImagen;
+	
+	@FXML
+	private HBox hbxImagen;
 
 	private OlimpiadasController mainController;
 
@@ -114,6 +119,8 @@ public class AniadirEditarOlimpiadasController {
 
 	private Evento evento;
 
+	private Participacion participacion;
+
 	private String obj;
 
 	private InputStream img;
@@ -125,13 +132,14 @@ public class AniadirEditarOlimpiadasController {
 	 * @param deporte
 	 */
 	public void setParent(OlimpiadasController parent, Deporte deporte, Deportista deportista, Equipo equipo,
-			Olimpiadas olimpiadas, Evento evento, String objeto) {
+			Olimpiadas olimpiadas, Evento evento, Participacion participacion, String objeto) {
 		this.mainController = parent;
 		this.deporte = deporte;
 		this.equipo = equipo;
 		this.deportista = deportista;
 		this.olimpiadas = olimpiadas;
 		this.evento = evento;
+		this.participacion = participacion;
 		obj = objeto;
 
 		if (objeto.equals("Deporte")) {
@@ -181,6 +189,7 @@ public class AniadirEditarOlimpiadasController {
 			btnSubirImagen.setVisible(true);
 			lblNombreImagen.setVisible(true);
 			lblNombreImagen.setText("");
+			hbxImagen.setVisible(true);
 			if (deportista != null) {
 				txtFNombre.setText(deportista.getNombreDeportista());
 				cmbxSexo.getSelectionModel().select(deportista.getSexo());
@@ -236,6 +245,40 @@ public class AniadirEditarOlimpiadasController {
 			}
 		}
 
+		if (objeto.equals("Participacion")) {
+			lblTituloAniadirEditar.setText("DATOS PARTICIPACION");
+			lblDato1.setVisible(true); // Deportista
+			lblDato1.setText("Deportista:");
+			cmbxDeportista.setVisible(true);
+			cmbxDeportista.setItems(mainController.getDeportistasGestor().cargarDeportistas());
+			lblDato2.setVisible(true); // Evento
+			lblDato2.setText("Evento:");
+			cmbxEvento.setVisible(true);
+			cmbxEvento.setItems(mainController.getEventosGstr().cargarEventos());
+			lblDato3.setVisible(true); // Equipo
+			lblDato3.setText("Equipo:");
+			cmbxEquipo.setVisible(true);
+			cmbxEquipo.setItems(mainController.getEquipoGestor().cargarEquipos());
+			lblDato4.setVisible(true); // Edad
+			lblDato4.setText("Edad:");
+			txtFEdad.setVisible(true);
+			lblDato5.setVisible(true); // Medalla
+			lblDato5.setText("Medalla:");
+			ObservableList<String> obsLst = FXCollections.observableArrayList();
+			obsLst.add("Gold");
+			obsLst.add("Silver");
+			obsLst.add("Bronze");
+			obsLst.add("NA");
+			cmbxMedalla.setItems(obsLst);
+			cmbxMedalla.setVisible(true);
+			if (participacion != null) {
+				cmbxDeportista.getSelectionModel().select(participacion.getDeportista());
+				cmbxEvento.getSelectionModel().select(participacion.getEvento());
+				cmbxEquipo.getSelectionModel().select(participacion.getEquipo());
+				txtFEdad.setText(participacion.getEdad()+"");
+				cmbxMedalla.getSelectionModel().select(participacion.getMedalla());
+			}
+		}
 	}
 
 	/**
@@ -306,7 +349,8 @@ public class AniadirEditarOlimpiadasController {
 		}
 
 		if (obj.equals("Evento")) {
-			Evento even = new Evento(txtFNombre.getText(), cmbxOlimpiada.getSelectionModel().getSelectedItem(), cmbxDeporte.getSelectionModel().getSelectedItem());
+			Evento even = new Evento(txtFNombre.getText(), cmbxOlimpiada.getSelectionModel().getSelectedItem(),
+					cmbxDeporte.getSelectionModel().getSelectedItem());
 			if (this.evento == null) {
 				mainController.getEventosGstr().insertEvento(even);
 			} else {
@@ -314,6 +358,18 @@ public class AniadirEditarOlimpiadasController {
 				mainController.getEventosGstr().editarEvento(even);
 			}
 			mainController.mostrarTablaEvento(event);
+		}
+
+		if (obj.equals("Participacion")) {
+			Participacion part = new Participacion(cmbxDeportista.getSelectionModel().getSelectedItem(),
+					cmbxEvento.getSelectionModel().getSelectedItem(), cmbxEquipo.getSelectionModel().getSelectedItem(),
+					Integer.parseInt(txtFEdad.getText()), cmbxMedalla.getSelectionModel().getSelectedItem());
+			if (this.participacion == null) {
+				mainController.getParticipacionesGstr().insertParticipacion(part);
+			} else {
+				mainController.getParticipacionesGstr().editarParticipacion(participacion, part);
+			}
+			mainController.mostrarTablaParticipacion(event);
 		}
 
 		Node n = (Node) event.getSource();

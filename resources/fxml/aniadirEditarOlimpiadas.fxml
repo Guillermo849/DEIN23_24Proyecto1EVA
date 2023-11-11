@@ -59,11 +59,6 @@
                   <Insets left="20.0" right="300.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="txtFMedalla" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="20.0" right="300.0" />
-               </GridPane.margin>
-            </TextField>
             <ComboBox fx:id="cmbxDeportista" prefHeight="25.0" prefWidth="476.0" visible="false" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" right="100.0" />
@@ -129,7 +124,11 @@
                   <Insets left="20.0" right="300.0" />
                </GridPane.margin>
             </TextField>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ComboBox fx:id="cmbxMedalla" prefWidth="150.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin></ComboBox>
+            <HBox fx:id="hbxImagen" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <Button fx:id="btnSubirImagen" mnemonicParsing="false" onAction="#subirImagen" text="Subir Imagen" visible="false">
                      <HBox.margin>
