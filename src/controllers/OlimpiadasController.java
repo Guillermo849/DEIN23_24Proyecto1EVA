@@ -29,6 +29,7 @@ import gestorBDD.DeportistasGestor;
 import gestorBDD.EquipoGestor;
 import gestorBDD.EventosGestor;
 import gestorBDD.OlimpiadasGestor;
+import gestorBDD.ParticipacionesGestor;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import model.Deporte;
@@ -36,6 +37,7 @@ import model.Deportista;
 import model.Equipo;
 import model.Evento;
 import model.Olimpiadas;
+import model.Participacion;
 
 /**
  * Programa que mustra la información de la base de datos de la olimpiada. Esta
@@ -143,22 +145,22 @@ public class OlimpiadasController implements Initializable {
 	private TableColumn<Olimpiadas, String> tbColumnCiudad;
 
 	@FXML
-	private TableView<?> tbViewParticipacion;
+	private TableView<Participacion> tbViewParticipacion;
 
 	@FXML
-	private TableColumn<?, ?> tbColumnDeportista;
+	private TableColumn<Participacion, Deportista> tbColumnDeportista;
 
 	@FXML
-	private TableColumn<?, ?> tbColumnEvento;
+	private TableColumn<Participacion, Evento> tbColumnEvento;
 
 	@FXML
-	private TableColumn<?, ?> tbColumnEquipo;
+	private TableColumn<Participacion, Equipo> tbColumnEquipo;
 
 	@FXML
-	private TableColumn<?, ?> tbColumnEdad;
+	private TableColumn<Participacion, Integer> tbColumnEdad;
 
 	@FXML
-	private TableColumn<?, ?> tbColumnMedalla;
+	private TableColumn<Participacion, String> tbColumnMedalla;
 
 	@FXML
 	private Button btnDeporte;
@@ -186,6 +188,7 @@ public class OlimpiadasController implements Initializable {
 	private DeportistasGestor deportistaGstr;
 	private OlimpiadasGestor olimpiadasGstr;
 	private EventosGestor eventosGstr;
+	private ParticipacionesGestor participacionesGstr;
 
 	private AniadirEditarOlimpiadasController aniadirEditarOlimpiadasController;
 
@@ -196,6 +199,7 @@ public class OlimpiadasController implements Initializable {
 	private Deportista dprtst;
 	private Olimpiadas olmpd;
 	private Evento evnt;
+	private Participacion prtcpcn;
 
 	/**
 	 * Devuelve el Gestor de Deportes
@@ -243,6 +247,15 @@ public class OlimpiadasController implements Initializable {
 	}
 	
 	/**
+	 * Devuelve el Gestor de Participaciones
+	 * 
+	 * @return
+	 */
+	public ParticipacionesGestor getParticipacionesGstr() {
+		return participacionesGstr;
+	}
+
+	/**
 	 * Selecciona el objeto de la tabla seleccionada.
 	 * 
 	 * @param event
@@ -253,6 +266,7 @@ public class OlimpiadasController implements Initializable {
 		equp = null;
 		dprtst = null; 
 		olmpd = null;
+		prtcpcn = null;
 		
 		if (tbViewDeportes.getSelectionModel().getSelectedItem() != null) {
 			indexObjeto = tbViewDeportes.getSelectionModel().getSelectedIndex();
@@ -275,6 +289,10 @@ public class OlimpiadasController implements Initializable {
 			indexObjeto = tbViewEvento.getSelectionModel().getSelectedIndex();
 			evnt = tbViewEvento.getItems().get(indexObjeto);
 		}
+		if (tbViewParticipacion.getSelectionModel().getSelectedItem() != null) {
+			indexObjeto = tbViewParticipacion.getSelectionModel().getSelectedIndex();
+			prtcpcn = tbViewParticipacion.getItems().get(indexObjeto);
+		}
 	}
 
 	/**
@@ -288,7 +306,7 @@ public class OlimpiadasController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
 			Parent root = loader.load();
 			aniadirEditarOlimpiadasController = loader.getController();
-			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, "Deporte");
+			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, null, "Deporte");
 
 			Stage agregarStage = new Stage();
 			agregarStage.setScene(new Scene(root));
@@ -312,7 +330,7 @@ public class OlimpiadasController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
 			Parent root = loader.load();
 			aniadirEditarOlimpiadasController = loader.getController();
-			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, "Deportista");
+			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, null, "Deportista");
 
 			Stage agregarStage = new Stage();
 			agregarStage.setScene(new Scene(root));
@@ -336,7 +354,7 @@ public class OlimpiadasController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
 			Parent root = loader.load();
 			aniadirEditarOlimpiadasController = loader.getController();
-			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, "Equipo");
+			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, null, "Equipo");
 
 			Stage agregarStage = new Stage();
 			agregarStage.setScene(new Scene(root));
@@ -360,7 +378,7 @@ public class OlimpiadasController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
 			Parent root = loader.load();
 			aniadirEditarOlimpiadasController = loader.getController();
-			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, "Evento");
+			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, null, "Evento");
 
 			Stage agregarStage = new Stage();
 			agregarStage.setScene(new Scene(root));
@@ -384,7 +402,7 @@ public class OlimpiadasController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
 			Parent root = loader.load();
 			aniadirEditarOlimpiadasController = loader.getController();
-			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, "Olimpiada");
+			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, null, "Olimpiada");
 
 			Stage agregarStage = new Stage();
 			agregarStage.setScene(new Scene(root));
@@ -399,7 +417,21 @@ public class OlimpiadasController implements Initializable {
 
 	@FXML
 	void aniadirParticipacion(ActionEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aniadirEditarOlimpiadas.fxml"));
+			Parent root = loader.load();
+			aniadirEditarOlimpiadasController = loader.getController();
+			aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, null, "Participacion");
 
+			Stage agregarStage = new Stage();
+			agregarStage.setScene(new Scene(root));
+			agregarStage.setResizable(false);
+			agregarStage.setTitle("Olimpiadas");
+			agregarStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -425,19 +457,22 @@ public class OlimpiadasController implements Initializable {
 				Parent root = loader.load();
 				aniadirEditarOlimpiadasController = loader.getController();
 				if (dprt != null) {
-					aniadirEditarOlimpiadasController.setParent(this, dprt, null, null, null, null, "Deporte");
+					aniadirEditarOlimpiadasController.setParent(this, dprt, null, null, null, null, null, "Deporte");
 				}
 				if (equp != null) {
-					aniadirEditarOlimpiadasController.setParent(this, null, null, equp, null, null, "Equipo");
+					aniadirEditarOlimpiadasController.setParent(this, null, null, equp, null, null, null, "Equipo");
 				}
 				if (dprtst != null) {
-					aniadirEditarOlimpiadasController.setParent(this, null, dprtst, null, null, null, "Deportista");
+					aniadirEditarOlimpiadasController.setParent(this, null, dprtst, null, null, null, null, "Deportista");
 				}
 				if (olmpd != null) {
-					aniadirEditarOlimpiadasController.setParent(this, null, null, null, olmpd, null, "Olimpiada");
+					aniadirEditarOlimpiadasController.setParent(this, null, null, null, olmpd, null, null, "Olimpiada");
 				}
 				if (evnt != null) {
-					aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, evnt, "Evento");
+					aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, evnt, null, "Evento");
+				}
+				if (prtcpcn != null) {
+					aniadirEditarOlimpiadasController.setParent(this, null, null, null, null, null, prtcpcn, "Participacion");
 				}
 
 				Stage agregarStage = new Stage();
@@ -479,6 +514,16 @@ public class OlimpiadasController implements Initializable {
 			if (olmpd != null) {
 				olimpiadasGstr.eliminarOlimpiada(olmpd);
 				mostrarTablaOlimpiada(event);
+			}
+			/* Eliminar Evento */
+			if (evnt != null) {
+				eventosGstr.eliminarEvento(evnt);
+				mostrarTablaEvento(event);
+			}
+			/* Eliminar Participacion */
+			if (prtcpcn != null) {
+				participacionesGstr.eliminarParticipacion(prtcpcn);
+				mostrarTablaParticipacion(event);
 			}
 		}
 	}
@@ -627,7 +672,20 @@ public class OlimpiadasController implements Initializable {
 	 */
 	@FXML
 	void mostrarTablaParticipacion(ActionEvent event) {
-
+		tbViewDeportes.setVisible(false);
+		tbViewDeportistas.setVisible(false);
+		tbViewEquipo.setVisible(false);
+		tbViewEvento.setVisible(false);
+		tbViewOlimpiadas.setVisible(false);
+		tbViewParticipacion.setVisible(true);
+		
+		lblNomTabla.setText("PARTICIPACIONES");
+		tbColumnDeportista.setCellValueFactory(new PropertyValueFactory<Participacion, Deportista>("Deportista"));
+		tbColumnEvento.setCellValueFactory(new PropertyValueFactory<Participacion, Evento>("Evento"));
+		tbColumnEquipo.setCellValueFactory(new PropertyValueFactory<Participacion, Equipo>("Equipo"));
+		tbColumnEdad.setCellValueFactory(new PropertyValueFactory<Participacion, Integer>("Edad"));
+		tbColumnMedalla.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMedalla()));
+		tbViewParticipacion.setItems(participacionesGstr.cargarParticipacions());
 	}
 
 	/**
@@ -649,6 +707,8 @@ public class OlimpiadasController implements Initializable {
 		olimpiadasGstr = new OlimpiadasGestor();
 		
 		eventosGstr = new EventosGestor();
+		
+		participacionesGstr = new ParticipacionesGestor();
 
 		tbViewDeportes.setItems(deportesGstr.cargarDeportes());
 

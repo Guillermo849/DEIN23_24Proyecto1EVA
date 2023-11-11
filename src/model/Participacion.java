@@ -1,7 +1,7 @@
 package model;
 
 public class Participacion {
-	private int idParticipacion;
+	private Deportista deportista;
 	private Evento evento;
 	private Equipo equipo;
 	private int edad;
@@ -14,20 +14,20 @@ public class Participacion {
 		this.medalla = medalla;
 	}
 
-	public Participacion(int idParticipacion, Evento evento, Equipo equipo, int edad, String medalla) {
-		this.idParticipacion = idParticipacion;
+	public Participacion(Deportista deportista, Evento evento, Equipo equipo, int edad, String medalla) {
+		this.deportista = deportista;
 		this.evento = evento;
 		this.equipo = equipo;
 		this.edad = edad;
 		this.medalla = medalla;
 	}
 
-	public int getIdParticipacion() {
-		return idParticipacion;
+	public Deportista getDeportista() {
+		return deportista;
 	}
 
-	public void setIdParticipacion(int idParticipacion) {
-		this.idParticipacion = idParticipacion;
+	public void setIdDeportista(Deportista deportista) {
+		this.deportista = deportista;
 	}
 
 	public Evento getEvento() {

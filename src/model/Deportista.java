@@ -75,4 +75,9 @@ public class Deportista {
 	public void setFoto(InputStream foto) {
 		this.foto = foto;
 	}
+	
+	@Override
+	public String toString() {
+		return nombreDeportista;
+	}
 }
