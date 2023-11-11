@@ -52,7 +52,7 @@ public class EventosGestor {
 	 * @param id
 	 * @return
 	 */
-	private Olimpiadas obtenerOlimpiada(int id) {
+	public Olimpiadas obtenerOlimpiada(int id) {
 		Olimpiadas olimpiada = null;
 		try {
 			conexion = new ConexionBDD();
@@ -76,7 +76,7 @@ public class EventosGestor {
 	 * @param id
 	 * @return
 	 */
-	private Deporte obtenerDeporte(int id) {
+	public Deporte obtenerDeporte(int id) {
 		Deporte deporte = null;
 		try {
 			conexion = new ConexionBDD();

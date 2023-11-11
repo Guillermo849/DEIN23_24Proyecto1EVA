@@ -4,22 +4,22 @@ public class Participacion {
 	private int idParticipacion;
 	private Evento evento;
 	private Equipo equipo;
-	private int anio;
-	private String temporada;
+	private int edad;
+	private String medalla;
 	
-	public Participacion(Evento evento, Equipo equipo, int anio, String temporada) {
+	public Participacion(Evento evento, Equipo equipo, int edad, String medalla) {
 		this.evento = evento;
 		this.equipo = equipo;
-		this.anio = anio;
-		this.temporada = temporada;
+		this.edad = edad;
+		this.medalla = medalla;
 	}
 
-	public Participacion(int idParticipacion, Evento evento, Equipo equipo, int anio, String temporada) {
+	public Participacion(int idParticipacion, Evento evento, Equipo equipo, int edad, String medalla) {
 		this.idParticipacion = idParticipacion;
 		this.evento = evento;
 		this.equipo = equipo;
-		this.anio = anio;
-		this.temporada = temporada;
+		this.edad = edad;
+		this.medalla = medalla;
 	}
 
 	public int getIdParticipacion() {
@@ -46,19 +46,19 @@ public class Participacion {
 		this.equipo = equipo;
 	}
 
-	public int getAnio() {
-		return anio;
+	public int getEdad() {
+		return edad;
 	}
 
-	public void setAnio(int anio) {
-		this.anio = anio;
+	public void setEdad(int edad) {
+		this.edad = edad;
 	}
 
-	public String getTemporada() {
-		return temporada;
+	public String getMedalla() {
+		return medalla;
 	}
 
-	public void setTemporada(String temporada) {
-		this.temporada = temporada;
+	public void setMedalla(String medalla) {
+		this.medalla = medalla;
 	}
 }
