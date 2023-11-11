@@ -8,24 +8,24 @@ public class Deportista {
 	private String sexo;
 	private int peso;
 	private int altura;
-	private InputStream imgStream;
+	private InputStream foto;
 	
-	public Deportista(String nombreDeportista, String sexo, int peso, int altura, InputStream imgStream) {
+	public Deportista(String nombreDeportista, String sexo, int peso, int altura, InputStream foto) {
 		this.nombreDeportista = nombreDeportista;
 		this.sexo = sexo;
 		this.peso = peso;
 		this.altura = altura;
-		this.imgStream = imgStream;
+		this.foto = foto;
 	}
 
 	public Deportista(int idDeportista, String nombreDeportista, String sexo, int peso, int altura,
-			InputStream imgStream) {
+			InputStream foto) {
 		this.idDeportista = idDeportista;
 		this.nombreDeportista = nombreDeportista;
 		this.sexo = sexo;
 		this.peso = peso;
 		this.altura = altura;
-		this.imgStream = imgStream;
+		this.foto = foto;
 	}
 
 	public int getIdDeportista() {
@@ -68,11 +68,11 @@ public class Deportista {
 		this.altura = altura;
 	}
 
-	public InputStream getImgStream() {
-		return imgStream;
+	public InputStream getFoto() {
+		return foto;
 	}
 
-	public void setImgStream(InputStream imgStream) {
-		this.imgStream = imgStream;
+	public void setFoto(InputStream foto) {
+		this.foto = foto;
 	}
 }
