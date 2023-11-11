@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import model.Deporte;
 import model.Deportista;
 import model.Equipo;
+import model.Olimpiadas;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,7 +75,7 @@ public class AniadirEditarOlimpiadasController {
 	private TextField txtFCiudad;
 
 	@FXML
-	private ComboBox<?> cmbxTemporada;
+	private ComboBox<String> cmbxTemporada;
 
 	@FXML
 	private ComboBox<?> cmbxOlimpiada;
@@ -105,9 +106,11 @@ public class AniadirEditarOlimpiadasController {
 	private Deporte deporte;
 
 	private Equipo equipo;
-	
+
 	private Deportista deportista;
-	
+
+	private Olimpiadas olimpiadas;
+
 	private String obj;
 
 	private InputStream img;
@@ -119,11 +122,12 @@ public class AniadirEditarOlimpiadasController {
 	 * @param deporte
 	 */
 	public void setParent(OlimpiadasController parent, Deporte deporte, Deportista deportista, Equipo equipo,
-			String objeto) {
+			Olimpiadas olimpiadas, String objeto) {
 		this.mainController = parent;
 		this.deporte = deporte;
 		this.equipo = equipo;
 		this.deportista = deportista;
+		this.olimpiadas = olimpiadas;
 		obj = objeto;
 
 		if (objeto.equals("Deporte")) {
@@ -131,9 +135,9 @@ public class AniadirEditarOlimpiadasController {
 			lblDato1.setVisible(true);
 			lblDato1.setText("Nombre:");
 			txtFNombre.setVisible(true);
-		}
-		if (deporte != null) {
-			txtFNombre.setText(deporte.getNombreDeporte());
+			if (deporte != null) {
+				txtFNombre.setText(deporte.getNombreDeporte());
+			}
 		}
 
 		if (objeto.equals("Equipo")) {
@@ -144,10 +148,10 @@ public class AniadirEditarOlimpiadasController {
 			lblDato2.setVisible(true);
 			lblDato2.setText("Iniciales:");
 			txtFIniciales.setVisible(true);
-		}
-		if (equipo != null) {
-			txtFNombre.setText(equipo.getnombreEquipo());
-			txtFIniciales.setText(equipo.getIniciales());
+			if (equipo != null) {
+				txtFNombre.setText(equipo.getnombreEquipo());
+				txtFIniciales.setText(equipo.getIniciales());
+			}
 		}
 
 		if (objeto.equals("Deportista")) {
@@ -173,16 +177,40 @@ public class AniadirEditarOlimpiadasController {
 			btnSubirImagen.setVisible(true);
 			lblNombreImagen.setVisible(true);
 			lblNombreImagen.setText("");
+			if (deportista != null) {
+				txtFNombre.setText(deportista.getNombreDeportista());
+				cmbxSexo.getSelectionModel().select(deportista.getSexo());
+				txtFPeso.setText(deportista.getPeso() + "");
+				txtFAltura.setText(deportista.getAltura() + "");
+				lblNombreImagen.setText(deportista.getFoto().toString());
+			}
 		}
-		if (deportista != null) {
-			txtFNombre.setText(deportista.getNombreDeportista());
-			cmbxSexo.getSelectionModel().select(deportista.getSexo());
-			txtFPeso.setText(deportista.getPeso()+"");
-			txtFAltura.setText(deportista.getAltura()+"");
-			lblNombreImagen.setText(deportista.getFoto().toString());
-		}
-		
 
+		if (objeto.equals("Olimpiada")) {
+			lblTituloAniadirEditar.setText("DATOS OLIMPIADAS");
+			lblDato1.setVisible(true); // Nombre
+			lblDato1.setText("Nombre:");
+			txtFNombre.setVisible(true);
+			lblDato2.setVisible(true); // Año
+			lblDato2.setText("Anio:");
+			txtFAnio.setVisible(true);
+			lblDato3.setVisible(true); // Temporada
+			lblDato3.setText("Temporada:");
+			ObservableList<String> obsLst = FXCollections.observableArrayList();
+			obsLst.add("Summer");
+			obsLst.add("Winter");
+			cmbxTemporada.setItems(obsLst);
+			cmbxTemporada.setVisible(true);
+			lblDato4.setVisible(true); // Ciudad
+			lblDato4.setText("Ciudad:");
+			txtFCiudad.setVisible(true);
+			if (olimpiadas != null) {
+				txtFNombre.setText(olimpiadas.getNombreOlimpiada());
+				txtFAnio.setText(olimpiadas.getAnio() + "");
+				cmbxTemporada.getSelectionModel().select(olimpiadas.getTemporada());
+				txtFCiudad.setText(olimpiadas.getCiudad());
+			}
+		}
 	}
 
 	/**
@@ -218,7 +246,8 @@ public class AniadirEditarOlimpiadasController {
 
 		if (obj.equals("Deportista")) {
 			Deportista depista = new Deportista(txtFNombre.getText(), cmbxSexo.getSelectionModel().getSelectedItem(),
-					Integer.parseInt(txtFPeso.getText().toString()), Integer.parseInt(txtFAltura.getText().toString()), img);
+					Integer.parseInt(txtFPeso.getText().toString()), Integer.parseInt(txtFAltura.getText().toString()),
+					img);
 			if (this.deportista == null) {
 				mainController.getDeportistasGestor().insertDeportista(depista);
 			} else {
@@ -237,6 +266,18 @@ public class AniadirEditarOlimpiadasController {
 				mainController.getEquipoGestor().editarequipo(equi);
 			}
 			mainController.mostrarTablaEquipo(event);
+		}
+
+		if (obj.equals("Olimpiada")) {
+			Olimpiadas olimp = new Olimpiadas(txtFNombre.getText(), Integer.parseInt(txtFAnio.getText().toString()),
+					cmbxTemporada.getSelectionModel().getSelectedItem(), txtFCiudad.getText());
+			if (this.olimpiadas == null) {
+				mainController.getOlimpiadasGstr().insertOlimpiada(olimp);
+			} else {
+				olimp.setIdOlimpiada(olimpiadas.getIdOlimpiada());
+				mainController.getOlimpiadasGstr().editarOlimpiada(olimp);
+			}
+			mainController.mostrarTablaOlimpiada(event);
 		}
 
 		Node n = (Node) event.getSource();
