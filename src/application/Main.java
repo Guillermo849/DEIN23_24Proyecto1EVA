@@ -13,7 +13,7 @@ public class Main extends Application {
 		try {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/fxml/tablas_de_olimpiadas.fxml"));
 			Scene scene = new Scene(root,600,400);
-//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/css/flatered.css").toExternalForm());
 			primaryStage.setTitle("Olimpiadas");
 			primaryStage.setScene(scene);
 			primaryStage.show();
